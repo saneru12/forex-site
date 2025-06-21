@@ -63,7 +63,7 @@
     async function loadImages() {
       imageGallery.innerHTML = "";
       try {
-        const res = await fetch("http://localhost:5000/api/images");
+        const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images");
         const data = await res.json();
 
         const filtered = data.filter((img) => img.category === currentFilter);
@@ -91,7 +91,7 @@
       if (!imglink) return;
 
       try {
-        const res = await fetch("http://localhost:5000/api/images", {
+        const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ imglink, category }),
