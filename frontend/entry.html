@@ -2,10 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Entry</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Loader CSS */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00e6e6;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    form input[type="url"],
+    form select,
+    form button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    form input[type="url"],
+    form select {
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
+
+    form button {
+      background-color: #00e6e6;
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    form button:hover {
+      background-color: #00cccc;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .buttons .filter-btn {
+      background-color: transparent;
+      border: 2px solid #00e6e6;
+      color: #00e6e6;
+      padding: 8px 16px;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .buttons .filter-btn.active,
+    .buttons .filter-btn:hover {
+      background-color: #00e6e6;
+      color: #000;
+    }
+
     .loader {
       border: 5px solid #232526;
       border-top: 5px solid #00e6e6;
@@ -16,6 +93,7 @@
       margin: 40px auto;
       display: none;
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg);}
       100% { transform: rotate(360deg);}
@@ -30,7 +108,8 @@
     }
 
     .image-gallery img {
-      max-width: 180px;
+      max-width: 160px;
+      width: 100%;
       border-radius: 10px;
       box-shadow: 0 0 8px rgba(0,230,230,0.4);
       cursor: pointer;
@@ -57,7 +136,7 @@
     .modal-content {
       margin: auto;
       display: block;
-      max-width: 90%;
+      max-width: 95%;
       max-height: 80vh;
       border-radius: 10px;
       box-shadow: 0 0 18px #00e6e6;
@@ -66,12 +145,34 @@
     .close {
       position: absolute;
       top: 30px;
-      right: 45px;
+      right: 20px;
       color: #00e6e6;
       font-size: 40px;
       font-weight: bold;
       cursor: pointer;
       text-shadow: 0 0 8px #00e6e6;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      form input[type="url"],
+      form select,
+      form button {
+        width: 100%;
+      }
+
+      .image-gallery img {
+        max-width: 100%;
+      }
+
+      .close {
+        right: 10px;
+        font-size: 36px;
+      }
     }
   </style>
 </head>
@@ -93,13 +194,10 @@
       <button class="filter-btn" data-filter="unsuccessful">❌ Unsuccessful</button>
     </div>
 
-    <!-- 🔄 Loader spinner -->
     <div class="loader" id="loader"></div>
-
     <div class="image-gallery" id="imageGallery"></div>
   </div>
 
-  <!-- Modal for full image view -->
   <div id="imageModal" class="modal">
     <span class="close">&times;</span>
     <img class="modal-content" id="modalImage">
@@ -137,12 +235,11 @@
 
     async function loadImages() {
       imageGallery.innerHTML = "";
-      loader.style.display = "block"; // Show loader
+      loader.style.display = "block";
 
       try {
         const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images");
         const data = await res.json();
-
         const filtered = data.filter((img) => img.category === currentFilter);
 
         if (filtered.length === 0) {
@@ -159,7 +256,7 @@
         console.error("Error loading images", err);
         imageGallery.innerHTML = "<p style='color:red;'>Error loading images.</p>";
       } finally {
-        loader.style.display = "none"; // Hide loader
+        loader.style.display = "none";
       }
     }
 
@@ -167,7 +264,6 @@
       e.preventDefault();
       const imglink = document.getElementById("imglink").value.trim();
       const category = document.getElementById("category").value;
-
       if (!imglink) return;
 
       try {
@@ -197,7 +293,6 @@
       });
     });
 
-    // Initial load
     loadImages();
   </script>
 </body>
