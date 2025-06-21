@@ -1,0 +1,105 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00e6e6;
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,230,230,0.3);
+    }
+
+    input, select, button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      background-color: #00e6e6;
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #00cccc;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel</h1>
+  <form id="adminForm">
+    <input type="url" id="imglink" placeholder="Paste image URL..." required />
+    <select id="category">
+      <option value="successful">Successful</option>
+      <option value="unsuccessful">Unsuccessful</option>
+    </select>
+    <button type="submit">Upload Image</button>
+    <div class="status" id="statusMsg"></div>
+  </form>
+
+  <script>
+    const adminForm = document.getElementById("adminForm");
+    const statusMsg = document.getElementById("statusMsg");
+
+    adminForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const imglink = document.getElementById("imglink").value.trim();
+      const category = document.getElementById("category").value;
+
+      if (!imglink) return;
+
+      try {
+        const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imglink, category }),
+        });
+
+        if (res.ok) {
+          statusMsg.textContent = "✅ Image added successfully!";
+          statusMsg.style.color = "lightgreen";
+          adminForm.reset();
+        } else {
+          statusMsg.textContent = "❌ Failed to add image.";
+          statusMsg.style.color = "red";
+        }
+      } catch (err) {
+        statusMsg.textContent = "❌ Error connecting to server.";
+        statusMsg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

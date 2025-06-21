@@ -1,12 +1,13 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Entry</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
+     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
@@ -192,21 +193,13 @@
     background-position: center;
   }
 }
-
   </style>
 </head>
 <body>
   <div class="container">
     <h1>My Entry</h1>
 
-    <form id="imageForm">
-      <input type="url" id="imglink" placeholder="Paste image URL..." required />
-      <select id="category">
-        <option value="successful">Successful</option>
-        <option value="unsuccessful">Unsuccessful</option>
-      </select>
-      <button type="submit">Add Image</button>
-    </form>
+    <!-- ❌ Removed form from here -->
 
     <div class="buttons">
       <button class="filter-btn active" data-filter="successful">✅ Successful</button>
@@ -217,20 +210,19 @@
     <div class="image-gallery" id="imageGallery"></div>
   </div>
 
+  <!-- Modal for full image preview -->
   <div id="imageModal" class="modal">
     <span class="close">&times;</span>
     <img class="modal-content" id="modalImage">
   </div>
 
   <script>
-    const imageForm = document.getElementById("imageForm");
+    // Keep same JavaScript except remove form submit logic
     const imageGallery = document.getElementById("imageGallery");
     const filterButtons = document.querySelectorAll(".filter-btn");
-
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
     const closeBtn = document.querySelector(".close");
-
     const loader = document.getElementById("loader");
 
     let currentFilter = "successful";
@@ -278,30 +270,6 @@
         loader.style.display = "none";
       }
     }
-
-    imageForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const imglink = document.getElementById("imglink").value.trim();
-      const category = document.getElementById("category").value;
-      if (!imglink) return;
-
-      try {
-        const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imglink, category }),
-        });
-
-        if (res.ok) {
-          loadImages();
-          imageForm.reset();
-        } else {
-          alert("Failed to add image.");
-        }
-      } catch (err) {
-        alert("Error connecting to server.");
-      }
-    });
 
     filterButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
