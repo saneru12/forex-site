@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trade Tracker with Cumulative Chart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            min-height: 100vh;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            background: rgba(34, 49, 63, 0.78);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+            padding: 32px 18px 24px 18px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #00e6e6 0%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-main {
+            display: inline-block;
+            margin: 0 auto 18px auto;
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #00e6e6 0%, #008CBA 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 12px rgba(0,230,230,0.1);
+        }
+        .btn-main:hover {
+            background: linear-gradient(90deg, #008CBA 0%, #00e6e6 100%);
+            color: #232526;
+        }
+        .table-scroll {
+            max-height: 320px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.25);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            margin-bottom: 18px;
+        }
+        .table-scroll table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent;
+        }
+        .table-scroll th, .table-scroll td {
+            padding: 10px 6px;
+            text-align: center;
+        }
+        .table-scroll th {
+            background: rgba(0, 230, 230, 0.18);
+            color: #00e6e6;
+            font-weight: 700;
+            font-size: 1rem;
+            border-bottom: 2px solid #00e6e6;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .table-scroll td {
+            font-size: 0.98rem;
+            border-bottom: 1px solid #222;
+            background: rgba(34, 49, 63, 0.80);
+        }
+        .table-scroll tr:last-child td {
+            border-bottom: none;
+        }
+        .btn-delete {
+            background: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 14px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover {
+            background: #ff2222;
+        }
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 24px 0 16px 0;
+            gap: 16px;
+        }
+        .stat-box {
+            flex: 1 1 160px;
+            min-width: 140px;
+            background: rgba(0,230,230,0.09);
+            color: #fff;
+            border-radius: 12px;
+            padding: 14px 10px;
+            margin: 0 6px;
+            box-shadow: 0 2px 8px rgba(0,230,230,0.08);
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 1.01rem;
+            font-weight: 600;
+            color: #00e6e6;
+        }
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+        .info {
+            font-size: 0.97rem;
+            color: #ccc;
+            margin-bottom: 6px;
+            margin-top: 6px;
+            text-align: center;
+        }
+        /* Modal styles */
+        #tradeModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.45);
+            z-index: 99;
+            align-items: center;
+            justify-content: center;
+        }
+        #tradeModal.active {
+            display: flex;
+        }
+        #tradeForm {
+            background: #232526;
+            padding: 32px 22px 22px 22px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,230,230,0.18);
+            min-width: 300px;
+            max-width: 94vw;
+        }
+        #tradeForm label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #00e6e6;
+        }
+        #tradeForm input, #tradeForm select {
+            width: 100%;
+            padding: 7px;
+            border-radius: 6px;
+            border: 1px solid #00e6e6;
+            background: #181b1f;
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        #tradeForm h2 {
+            color: #00e6e6;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        #tradeForm .btn-main, #tradeForm .btn-delete {
+            width: 48%;
+            margin: 0 1%;
+        }
+        @media (max-width: 800px) {
+            .container {
+                max-width: 98vw;
+                padding: 10px 2vw 20px 2vw;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .stat-box {
+                margin: 0;
+            }
+        }
+        @media (max-width: 500px) {
+            #tradeForm {
+                min-width: 90vw;
+                padding: 18px 4vw 14px 4vw;
+            }
+        }
+        /* Chart container styling */
+        .chart-glass {
+            margin: 36px auto 0 auto;
+            max-width: 900px;
+            background: rgba(0,230,230,0.08);
+            border-radius: 22px;
+            box-shadow: 0 8px 32px 0 rgba(0,230,230,0.10), 0 0 24px 0 rgba(0,230,230,0.12);
+            padding: 34px 18px 24px 18px;
+            position: relative;
+        }
+        .chart-glass::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: linear-gradient(120deg,rgba(0,230,230,0.08),rgba(255,255,255,0.02));
+            z-index: 0;
+        }
+        .chart-glass h2 {
+            text-align: center;
+            font-size: 1.35rem;
+            color: #00e6e6;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 8px #00e6e6;
+        }
+        .chart-glass canvas {
+            display: block;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.16);
+            border-radius: 14px;
+            box-shadow: 0 2px 18px rgba(0,230,230,0.11);
+            max-width: 100%;
+            height: 340px !important;
+            width: 100% !important;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Forex & Crypto Trade Tracker</h1>
+        <button class="btn-main" type="button" id="openModalBtn">Add Trade</button>
+        <!-- Add Trade Modal -->
+        <div id="tradeModal">
+          <form id="tradeForm" autocomplete="off">
+            <h2>Add Trade</h2>
+            <label>Date
+              <input type="date" name="date" required>
+            </label>
+            <label>Asset
+              <input type="text" name="asset" required>
+            </label>
+            <label>Entry Price
+              <input type="number" step="any" name="entry" required>
+            </label>
+            <label>Exit Price
+              <input type="number" step="any" name="exit" required>
+            </label>
+            <label>Profit/Loss
+              <input type="number" step="any" name="profitLoss" required>
+            </label>
+            <label>Status
+              <select name="status" required>
+                <option value="">Select</option>
+                <option value="win">Win ✅</option>
+                <option value="loss">Loss ❌</option>
+              </select>
+            </label>
+            <div style="text-align:center;">
+              <button type="submit" class="btn-main">Add</button>
+              <button type="button" class="btn-delete" onclick="closeModal()">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <!-- Table with Scrollbar -->
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Asset</th>
+                        <th>Entry Price</th>
+                        <th>Exit Price</th>
+                        <th>Profit/Loss</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tradeTableBody"></tbody>
+            </table>
+        </div>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Total Profit</div>
+                <div class="stat-value" id="totalProfit">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="winRate">0%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Winning Trades</div>
+                <div class="stat-value" id="winningTrades">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Losing Trades</div>
+                <div class="stat-value" id="losingTrades">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Risk-Reward Ratio</div>
+                <div class="stat-value" id="riskReward">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Profit Factor</div>
+                <div class="stat-value" id="profitFactor">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Expectancy</div>
+                <div class="stat-value" id="expectancy">0</div>
+            </div>
+        </div>
+        <div class="info">
+            <b>Profit Factor</b> එක 1.0 ට වඩා අඩු නම්, ඔබ ලාභ කාලයක් නොමැති බව පෙන්වයි.<br>
+            <b>Profit Factor</b> එක 1.0 ට වඩා වැඩි නම්, ඔබේ වාසි (Winning Amount), ඔබේ පාඩු (Losing Amount) ට වඩා වැඩි බව පෙන්වයි.<br>
+            <b>Expectancy</b> = trade එකකින් ඔබට ලැබිය හැකි සාමාන්‍ය ආදායමයි.
+        </div>
+    </div>
+    <!-- Modern Cumulative Chart -->
+    <div class="chart-glass">
+        <h2>Cumulative Profit/Loss Chart</h2>
+        <canvas id="profitLossChart" height="340"></canvas>
+    </div>
+    <script>
+        let trades = JSON.parse(localStorage.getItem("trades")) || [];
+        let chartInstance = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateTable();
+            updateStats();
+            updateChart();
+        });
+
+        // Modal logic
+        const tradeModal = document.getElementById('tradeModal');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const tradeForm = document.getElementById('tradeForm');
+
+        openModalBtn.onclick = openModal;
+        function openModal() {
+            tradeModal.classList.add('active');
+        }
+        function closeModal() {
+            tradeModal.classList.remove('active');
+            tradeForm.reset();
+        }
+        tradeModal.addEventListener('click', function(e){
+            if(e.target === this) closeModal();
+        });
+
+        tradeForm.onsubmit = function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const date = form.date.value;
+            const asset = form.asset.value.trim();
+            const entry = parseFloat(form.entry.value);
+            const exit = parseFloat(form.exit.value);
+            const profitLoss = parseFloat(form.profitLoss.value);
+            const status = form.status.value;
+
+            if (!date || !asset || isNaN(entry) || isNaN(exit) || isNaN(profitLoss) || (status !== "win" && status !== "loss")) {
+                alert("Please fill all fields correctly!");
+                return;
+            }
+
+            trades.push({ date, asset, entry, exit, profitLoss, status });
+            saveTrades();
+            updateTable();
+            updateStats();
+            updateChart();
+            closeModal();
+        };
+
+        function deleteTrade(index) {
+            if (confirm("Are you sure you want to delete this trade?")) {
+                trades.splice(index, 1);
+                saveTrades();
+                updateTable();
+                updateStats();
+                updateChart();
+            }
+        }
+
+        function saveTrades() {
+            localStorage.setItem("trades", JSON.stringify(trades));
+        }
+
+        function updateTable() {
+            let tbody = document.getElementById("tradeTableBody");
+            tbody.innerHTML = "";
+
+            trades.forEach((trade, index) => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${trade.date}</td>
+                    <td>${trade.asset}</td>
+                    <td>${trade.entry.toFixed(2)}</td>
+                    <td>${trade.exit.toFixed(2)}</td>
+                    <td style="color: ${trade.profitLoss >= 0 ? 'lightgreen' : 'red'}">${trade.profitLoss.toFixed(2)}</td>
+                    <td>${trade.status === "win" ? "Win ✅" : "Loss ❌"}</td>
+                    <td><button class="btn-delete" onclick="deleteTrade(${index})">Delete</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateStats() {
+            let totalProfit = 0, winCount = 0, lossCount = 0;
+            let totalWinAmount = 0, totalLossAmount = 0;
+
+            trades.forEach(trade => {
+                totalProfit += trade.profitLoss;
+                if (trade.status === "win") {
+                    winCount++;
+                    totalWinAmount += trade.profitLoss;
+                } else {
+                    lossCount++;
+                    totalLossAmount += Math.abs(trade.profitLoss);
+                }
+            });
+
+            let winRate = trades.length > 0 ? (winCount / trades.length * 100).toFixed(2) : 0;
+            let riskRewardRatio = lossCount > 0 ? (totalWinAmount / lossCount).toFixed(2) : "N/A";
+            let profitFactor = totalLossAmount > 0 ? (totalWinAmount / totalLossAmount).toFixed(2) : (totalWinAmount > 0 ? "∞" : "N/A");
+            let expectancy = trades.length > 0 ? (totalProfit / trades.length).toFixed(2) : 0;
+
+            document.getElementById("totalProfit").innerText = totalProfit.toFixed(2);
+            document.getElementById("winRate").innerText = winRate + "%";
+            document.getElementById("winningTrades").innerText = winCount;
+            document.getElementById("losingTrades").innerText = lossCount;
+            document.getElementById("riskReward").innerText = riskRewardRatio;
+            document.getElementById("profitFactor").innerText = profitFactor;
+            document.getElementById("expectancy").innerText = expectancy;
+        }
+
+        function updateChart() {
+            let ctx = document.getElementById("profitLossChart").getContext("2d");
+            let labels = trades.map(trade => trade.date);
+
+            // Prepare cumulative profit/loss array
+            let cumulative = 0;
+            let cumulativeData = trades.map(trade => {
+                cumulative += trade.profitLoss;
+                return cumulative;
+            });
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            // Gradient for chart line
+            let gradient = ctx.createLinearGradient(0, 0, 0, 340);
+            gradient.addColorStop(0, "#00e6e6");
+            gradient.addColorStop(1, "#232526");
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Cumulative Profit/Loss",
+                        data: cumulativeData,
+                        borderColor: "#00e6e6",
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.33,
+                        pointBackgroundColor: "#fff",
+                        pointBorderColor: "#00e6e6",
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        borderWidth: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#00e6e6',
+                                font: { size: 16, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: "rgba(0,230,230,0.92)",
+                            titleColor: "#232526",
+                            bodyColor: "#232526",
+                            borderColor: "#00e6e6",
+                            borderWidth: 2,
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(ctx) {
+                                    return ` ${ctx.dataset.label}: ${ctx.parsed.y}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Trade Date",
+                                color: "#00e6e6",
+                                font: { size: 14, weight: "bold" }
+                            },
+                            ticks: { color: '#fff' },
+                            grid: { color: 'rgba(0,230,230,0.08)' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Cumulative P/L",
+                                color: "#00e6e6",
+                                font: { size: 14, weight: "bold" }
+                            },
+                            ticks: { color: '#fff' },
+                            grid: { color: 'rgba(0,230,230,0.08)' }
+                        }
+                    },
+                    animation: {
+                        duration: 900,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
