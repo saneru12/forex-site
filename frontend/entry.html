@@ -4,6 +4,76 @@
   <meta charset="UTF-8" />
   <title>My Entry</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Loader CSS */
+    .loader {
+      border: 5px solid #232526;
+      border-top: 5px solid #00e6e6;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 0.8s linear infinite;
+      margin: 40px auto;
+      display: none;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .image-gallery img {
+      max-width: 180px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,230,230,0.4);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 0 18px #00e6e6;
+    }
+
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 45px;
+      color: #00e6e6;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      text-shadow: 0 0 8px #00e6e6;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -23,6 +93,9 @@
       <button class="filter-btn" data-filter="unsuccessful">❌ Unsuccessful</button>
     </div>
 
+    <!-- 🔄 Loader spinner -->
+    <div class="loader" id="loader"></div>
+
     <div class="image-gallery" id="imageGallery"></div>
   </div>
 
@@ -40,6 +113,8 @@
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
     const closeBtn = document.querySelector(".close");
+
+    const loader = document.getElementById("loader");
 
     let currentFilter = "successful";
 
@@ -62,6 +137,8 @@
 
     async function loadImages() {
       imageGallery.innerHTML = "";
+      loader.style.display = "block"; // Show loader
+
       try {
         const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images");
         const data = await res.json();
@@ -69,17 +146,20 @@
         const filtered = data.filter((img) => img.category === currentFilter);
 
         if (filtered.length === 0) {
-          imageGallery.innerHTML = "<p>No images yet.</p>";
+          imageGallery.innerHTML = "<p style='color:#ccc;'>No images yet.</p>";
+        } else {
+          filtered.forEach(({ imglink }) => {
+            const img = document.createElement("img");
+            img.src = imglink;
+            setupImageClick(img);
+            imageGallery.appendChild(img);
+          });
         }
-
-        filtered.forEach(({ imglink }) => {
-          const img = document.createElement("img");
-          img.src = imglink;
-          setupImageClick(img);
-          imageGallery.appendChild(img);
-        });
       } catch (err) {
         console.error("Error loading images", err);
+        imageGallery.innerHTML = "<p style='color:red;'>Error loading images.</p>";
+      } finally {
+        loader.style.display = "none"; // Hide loader
       }
     }
 
@@ -117,6 +197,7 @@
       });
     });
 
+    // Initial load
     loadImages();
   </script>
 </body>

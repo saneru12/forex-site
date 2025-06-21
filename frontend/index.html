@@ -56,20 +56,34 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 28px;
+      padding: 10px 20px;
+      flex-wrap: wrap;
       z-index: 1000;
       box-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
       border-bottom: 2px solid #00e6e6;
       transition: background 0.4s;
+      
     }
     .logo {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
     .logo img {
-      height: 42px;
-      margin-right: 12px;
+      width: 40px;
+      height: 40px;
       filter: drop-shadow(0 0 10px #00e6e6);
+    }
+    .neon {
+    font-size: 1.2rem;
+    font-weight: bold;
+    }
+    header > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
     }
     .logo span {
       font-size: 22px;
@@ -79,7 +93,7 @@
       text-shadow: 0 2px 8px rgba(0,230,230,0.4);
     }
     .live-clock {
-      font-size: 16px;
+      font-size: 0.9rem;
       color: #fff;
       background: rgba(0,230,230,0.15);
       padding: 4px 12px;
@@ -410,6 +424,28 @@
       will-change: transform;
       transition: transform 0.2s cubic-bezier(.25,.8,.25,1);
     }
+    /* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header > div:last-child {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  .neon {
+    font-size: 1rem;
+  }
+}
   </style>
 </head>
 <body>
