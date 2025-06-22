@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Lot Size Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Animate.css CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      background: linear-gradient(135deg, #e8eafe 0%, #f8f9fb 100%);
+      font-family: 'Segoe UI', 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .calculator {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(60,60,120,0.12);
+      padding: 36px 28px 28px 28px;
+      max-width: 520px;
+      width: 100%;
+      margin: 32px 0;
+      position: relative;
+      animation-duration: 1.2s;
+    }
+    .calculator h2 {
+      font-size: 1.7em;
+      font-weight: 700;
+      color: #2d356e;
+      margin: 0 0 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .calculator .tooltip {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .calculator .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #2ca6e0;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      padding: 10px 16px;
+      position: absolute;
+      z-index: 2;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.98em;
+      box-shadow: 0 4px 16px #2ca6e055;
+    }
+    .calculator .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    /* Loader */
+    #loader {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.7);
+      border-radius: 20px;
+      z-index: 10;
+    }
+    .loader-spinner {
+      border: 5px solid #e3e7f3;
+      border-top: 5px solid #ff5ea2;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .calculator {
+        padding: 18px 4vw 18px 4vw;
+        max-width: 98vw;
+      }
+      .calculator h2 {
+        font-size: 1.2em;
+      }
+      .calculator .tooltip .tooltiptext {
+        width: 140px;
+        font-size: 0.92em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator tilt animate__animated animate__fadeInRight">
+    <h2>
+      🧮 Lot Size Calculator
+      <span class="tooltip">ℹ️
+        <span class="tooltiptext">Calculate your optimal position size</span>
+      </span>
+    </h2>
+    <!-- Loader -->
+    <div id="loader">
+      <div class="loader-spinner"></div>
+    </div>
+    <!-- Calculator widget container -->
+    <div id="position-size-calculator-284165"></div>
+  </div>
+  <!-- Widget Script -->
+  <script src="https://fxverify.com/Content/remote/remote-widgets.js"></script>
+  <script>
+    // Loader Show
+    document.getElementById('loader').style.display = "flex";
+    window.addEventListener('load', function() {
+      setTimeout(function(){
+        document.getElementById('loader').style.display = "none";
+      }, 1200);
+    });
+    RemoteCalc({
+      "Url": "https://fxverify.com",
+      "TopPaneStyle": "YmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KCMzNDM1NDAgMCUsICMyNDI4MzEgMTAwJSk7IGNvbG9yOiB3aGl0ZTsgYm9yZGVyLWJvdHRvbTogbm9uZTs=",
+      "BottomPaneStyle": "YmFja2dyb3VuZDogIzE1MTgxZDsgYm9yZGVyOiBzb2xpZCAwcHggIzJhMmUzOTsgY29sb3I6ICM5MTk0YTE7",
+      "ButtonStyle": "YmFja2dyb3VuZDogIzM0MzU0MDsgY29sb3I6IHdoaXRlOyBib3JkZXItcmFkaXVzOiAyMHB4Ow==",
+      "TitleStyle": "dGV4dC1hbGlnbjogbGVmdDsgZm9udC1zaXplOiA0MHB4OyBmb250LXdlaWdodDogNTAwOw==",
+      "TextboxStyle": "YmFja2dyb3VuZDogIzE1MTgxZDsgY29sb3I6ICM5MTk0YTE7IGJvcmRlcjogc29saWQgMHB4ICM5MTk0YTE7",
+      "ContainerWidth": "100%",
+      "DefaultInstrument": "GBP.USD",
+      "HighlightColor": "rgba(0,0,0,1.0)",
+      "IsDisplayTitle": false,
+      "IsShowChartLinks": true,
+      "IsShowEmbedButton": true,
+      "CompactType": "large",
+      "Calculator": "position-size-calculator",
+      "ContainerId": "position-size-calculator-284165"
+    });
+  </script>
+</body>
+</html>

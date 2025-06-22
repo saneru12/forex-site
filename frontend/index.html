@@ -1,684 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <title>Saneru FX Tools</title>
-  <!-- Google Fonts - Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Social Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <!-- Animate.css for entry animations -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth;
-    }
-    html {
-      cursor: url('https://cdn-icons-png.flaticon.com/512/545/545682.png'), auto;
-    }
-    body {
-      font-family: 'Poppins', Arial, sans-serif;
-      background-image: url('https://i.imgur.com/qYOBX7Z.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: #fff;
-      min-height: 100vh;
-      position: relative;
-      z-index: 1;
-      transition: background 0.5s;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(120deg, rgba(0,0,0,0.7) 0%, rgba(34,193,195,0.3) 100%);
-      z-index: 0;
-      pointer-events: none;
-    }
-    body > * {
-      position: relative;
-      z-index: 1;
-    }
-    .neon {
-      text-shadow: 0 0 8px #00e6e6, 0 0 16px #00e6e6, 0 0 24px #00e6e6;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      background: linear-gradient(90deg, #232526 0%, #414345 100%);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      flex-wrap: wrap;
-      z-index: 1000;
-      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
-      border-bottom: 2px solid #00e6e6;
-      transition: background 0.4s;
-      
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo img {
-      width: 50px;
-      height: 50px;
-      filter: drop-shadow(0 0 10px #00e6e6);
-    }
-    .neon {
-    font-size: 1.2rem;
-    font-weight: bold;
-    }
-    header > div:last-child {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    }
-    .logo span {
-      font-size: 22px;
-      font-weight: 700;
-      color: #00e6e6;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px rgba(0,230,230,0.4);
-    }
-    .live-clock {
-      font-size: 0.9rem;
-      color: #fff;
-      background: rgba(0,230,230,0.15);
-      padding: 4px 12px;
-      border-radius: 10px;
-      margin-left: 16px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      border: 1px solid #00e6e6;
-      box-shadow: 0 0 8px #00e6e6;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .theme-toggle {
-      background: linear-gradient(90deg, #00e6e6 0%, #232526 100%);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      padding: 7px 18px;
-      font-size: 15px;
-      margin-left: 18px;
-      cursor: pointer;
-      box-shadow: 0 0 8px #00e6e6;
-      transition: background 0.3s, color 0.3s;
-    }
-    .theme-toggle:hover {
-      background: linear-gradient(90deg, #232526 0%, #00e6e6 100%);
-      color: #00e6e6;
-    }
-    .world-clocks {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-left: 20px;
-      margin-top: 12px;
-      margin-bottom: 0;
-      font-size: 15px;
-      font-weight: 600;
-      color: #00e6e6;
-      text-shadow: 0 0 8px #00e6e6;
-    }
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Saneru FX Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #f5f6ff;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(60,60,120,0.08);
+            padding: 40px 40px 0 40px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.7em;
+            font-weight: bold;
+            color: #5a4fdc;
+        }
+        .navbar .logo span {
+            width: 32px;
+            height: 32px;
+            background: #e06bb6;
+            border-radius: 8px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .navbar nav a {
+            margin: 0 18px;
+            color: #3c3c6c;
+            text-decoration: none;
+            font-size: 1.08em;
+        }
+        .navbar .signup-btn {
+            background: #ff5ea2;
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 8px 24px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .left {
+            max-width: 48%;
+        }
+        .left h2 {
+            font-size: 2.3em;
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        .left h2 .blue {
+            color: #2ca6e0;
+            font-weight: 400;
+        }
+        .left h2 .bold {
+            color: #23306c;
+            font-weight: 700;
+        }
+        .left .sub {
+            color: #2ca6e0;
+            font-size: 1.2em;
+            margin-bottom: 16px;
+        }
+        .left p {
+            color: #888;
+            font-size: 1em;
+            margin-bottom: 28px;
+        }
+        .left .register-btn {
+            background: #ff5ea2;
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 12px 32px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        .right {
+            max-width: 48%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Illustration styles */
+        .illustration {
+            position: relative;
+            width: 370px;
+            height: 320px;
+            background: none;
+        }
+        .phone {
+            position: absolute;
+            left: 50px;
+            top: 30px;
+            width: 180px;
+            height: 260px;
+            background: #a3d2f7;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(60,60,120,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .screen {
+            width: 140px;
+            height: 200px;
+            background: #23306c;
+            border-radius: 10px;
+            position: relative;
+            margin: 0 auto;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .candles {
+            display: flex;
+            align-items: flex-end;
+            height: 140px;
+            margin-top: 30px;
+        }
+        .candle {
+            width: 10px;
+            margin: 0 4px;
+            border-radius: 3px;
+            background: #2ca6e0;
+            position: relative;
+        }
+        .candle.red { background: #ff5e5e; }
+        .candle.green { background: #47e087; }
+        .candle1 { height: 60px; }
+        .candle2 { height: 90px; }
+        .candle3 { height: 70px; }
+        .candle4 { height: 110px; }
+        .candle5 { height: 80px; }
+        .candle6 { height: 100px; }
+        .buy-sell {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 14px 0;
+        }
+        .buy-btn, .sell-btn {
+            width: 54px;
+            padding: 5px 0;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1em;
+        }
+        .buy-btn { background: #47e087; }
+        .sell-btn { background: #ff5e5e; }
+        /* Coins and arrow */
+        .coins {
+            position: absolute;
+            right: 10px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .coin-stack {
+            width: 50px;
+            height: 50px;
+            background: gold;
+            border-radius: 50%;
+            border: 4px solid #ffcd34;
+            margin-bottom: 4px;
+            position: relative;
+        }
+        .coin-stack:after {
+            content: '$';
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            font-size: 1.4em;
+            color: #ffae00;
+            font-weight: bold;
+        }
+        .arrow-up {
+            width: 60px;
+            height: 14px;
+            background: #f6b93b;
+            clip-path: polygon(0 0, 80% 0, 80% 70%, 100% 70%, 80% 100%, 80% 70%, 0 70%);
+            margin-top: 6px;
+        }
+        /* Characters */
+        .user1, .user2 {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background: none;
+        }
+        .user1 {
+            left: 0;
+            bottom: 30px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .user2 {
+            right: 70px;
+            bottom: 90px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .user-shape {
+            width: 40px;
+            height: 60px;
+            background: #f7b6d2;
+            border-radius: 20px;
+            margin: 0 auto;
+        }
+        .user-shape.blue { background: #a3d2f7; }
+        /* Gears */
+        .gears {
+            position: absolute;
+            right: 0;
+            top: 30px;
+        }
+        .gear {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e3eaf2;
+            position: absolute;
+        }
+        .gear1 { left: 0; top: 0; }
+        .gear2 { left: 22px; top: 18px; width: 18px; height: 18px; }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left, .right {
+                max-width: 100%;
+            }
+            .illustration {
+                margin-top: 40px;
+            }
+        }
+        /* Tablet breakpoint */
+@media (max-width: 900px) {
     .container {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100%;
-      min-height: 100vh;
-      gap: 24px;
-      justify-content: center;
-      align-items: stretch;
-      padding: 32px 0 24px 0;
-      position: relative;
-      z-index: 1;
+        padding: 24px 8px 0 8px;
     }
-    .calendar, .calculator {
-      flex: 1;
-      min-width: 320px;
-      max-width: 600px;
-      padding: 28px 22px 22px 22px;
-      background: rgba(15, 24, 29, 0.65);
-      backdrop-filter: blur(10px);
-      border-radius: 22px;
-      border: 2px solid transparent;
-      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
-      height: 100vh;
-      opacity: 0;
-      transform: scale(0.98) translateY(30px);
-      animation: fadeInScale 1s cubic-bezier(.25,.8,.25,1) forwards;
-      transition: box-shadow 0.3s, transform 0.3s;
-      box-sizing: border-box;
-      margin-bottom: 0;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
+    .main-content {
+        flex-direction: column;
+        gap: 32px;
     }
-    .calendar::before, .calculator::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 22px;
-      padding: 2px;
-      background: linear-gradient(120deg, #00e6e6, #232526, #00e6e6);
-      background-size: 200% 200%;
-      animation: borderMove 4s linear infinite;
-      z-index: -1;
-      pointer-events: none;
-    }
-    @keyframes borderMove {
-      0% {background-position: 0 0;}
-      100% {background-position: 100% 100%;}
-    }
-    .calendar > *, .calculator > * {
-      position: relative;
-      z-index: 2;
-    }
-    .calendar {
-      animation-delay: 0.3s;
-      overflow-y: auto;
-      max-height: 100vh;
-    }
-    .calculator {
-      animation-delay: 0.6s;
-      overflow-y: auto;
-      max-height: 100vh;
-      padding-bottom: 40px;
-    }
-    .calendar:hover, .calculator:hover {
-      box-shadow: 0 0 40px 10px rgba(0, 230, 230, 0.3), 0 8px 32px 0 rgba(31,38,135,0.37);
-      transform: scale(1.015);
-    }
-    h2 {
-      text-align: center;
-      font-size: 26px;
-      margin-bottom: 22px;
-      border-bottom: 2px solid #00e6e6;
-      padding-bottom: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      background: linear-gradient(90deg, #00e6e6 0%, #fff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-    }
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 160px;
-      background: rgba(0, 230, 230, 0.92);
-      color: #232526;
-      text-align: center;
-      border-radius: 8px;
-      padding: 7px 10px;
-      position: absolute;
-      z-index: 10;
-      bottom: 125%; left: 50%; transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 13px;
-      font-weight: 500;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-    }
-    .calendar::-webkit-scrollbar, .calculator::-webkit-scrollbar {
-      width: 8px;
-    }
-    .calendar::-webkit-scrollbar-thumb, .calculator::-webkit-scrollbar-thumb {
-      background: linear-gradient(120deg, #00e6e6 40%, #232526 100%);
-      border-radius: 6px;
-    }
-    .calendar::-webkit-scrollbar-track, .calculator::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.15);
-      border-radius: 6px;
-    }
-    .calendar, .calculator {
-      scrollbar-color: #00e6e6 rgba(0,0,0,0.15);
-      scrollbar-width: thin;
-    }
-    @keyframes fadeInScale {
-      from { opacity: 0; transform: scale(0.98) translateY(30px);}
-      to { opacity: 1; transform: scale(1) translateY(0);}
-    }
-    .divider {
-      width: 100%;
-      height: 32px;
-      background: url('https://svgshare.com/i/12Qk.svg') repeat-x center;
-      background-size: contain;
-      margin: 0 0 18px 0;
-      opacity: 0.5;
-    }
-    .fab {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      background: linear-gradient(135deg, #00e6e6, #232526);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 54px; height: 54px;
-      font-size: 24px;
-      box-shadow: 0 6px 24px rgba(0,230,230,0.3);
-      cursor: pointer;
-      z-index: 9999;
-      transition: transform 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .fab:hover {
-      transform: scale(1.13) rotate(-10deg);
-      background: linear-gradient(135deg, #232526, #00e6e6);
-      color: #00e6e6;
-    }
-    .loader {
-      border: 5px solid #232526;
-      border-top: 5px solid #00e6e6;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      animation: spin 0.8s linear infinite;
-      margin: 40px auto;
-      display: none;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
-    }
-    .social-icons {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-    }
-    .social-icons a {
-      color: #00e6e6;
-      font-size: 22px;
-      transition: color 0.3s, text-shadow 0.3s;
-      text-decoration: none;
-      text-shadow: 0 0 8px #00e6e6;
-    }
-    .social-icons a:hover {
-      color: #fff;
-      text-shadow: 0 0 18px #00e6e6, 0 0 8px #fff;
-    }
-    .footer {
-      text-align: center;
-      padding: 18px 0 12px 0;
-      background: linear-gradient(90deg, #232526 0%, #414345 100%);
-      font-size: 15px;
-      color: #ccc;
-      border-top: 2px solid #00e6e6;
-      letter-spacing: 1px;
-      font-weight: 500;
-      margin-top: 0;
-      box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.5);
-      position: relative;
-      z-index: 2;
-    }
-    .footer a {
-      color: #00e6e6;
-      text-decoration: none;
-      position: relative;
-      transition: color 0.3s;
-    }
-    .footer a::after {
-      content: "";
-      display: block;
-      height: 2px;
-      width: 0;
-      background: linear-gradient(90deg, #00e6e6, #fff);
-      transition: width 0.3s;
-      position: absolute;
-      left: 0; bottom: -2px;
-    }
-    .footer a:hover {
-      color: #fff;
-    }
-    .footer a:hover::after {
-      width: 100%;
-    }
-    @media (max-width: 1150px) {
-      .calendar, .calculator {
+    .left, .right {
         max-width: 100%;
-      }
     }
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-        gap: 18px;
-        padding: 18px 0 12px 0;
-      }
-      .calendar, .calculator {
-        height: auto;
-        max-height: none;
-        min-width: unset;
-        padding: 18px 8px 14px 8px;
-        border-radius: 16px;
-      }
-      h2 {
-        font-size: 22px;
-        padding-bottom: 7px;
-      }
+    .illustration {
+        margin-top: 32px;
+        width: 90vw;
+        max-width: 370px;
+        height: 220px;
     }
-    @media (max-width: 600px) {
-      .calendar, .calculator {
-        border-radius: 10px;
-        padding: 10px 2px 10px 2px;
-      }
-      .container {
-        padding: 6px 0 6px 0;
-      }
-      h2 {
-        font-size: 18px;
-        gap: 7px;
-      }
-      .footer {
-        font-size: 13px;
-        padding: 10px 0 8px 0;
-      }
-      .fab {
-        bottom: 16px;
-        right: 16px;
-        width: 44px; height: 44px;
-        font-size: 20px;
-      }
-      .world-clocks {
-        flex-direction: column;
-        gap: 4px;
-        font-size: 14px;
-        margin-left: 0;
-        margin-top: 8px;
-      }
+    .navbar nav a {
+        margin: 0 10px;
     }
-    .tilt {
-      will-change: transform;
-      transition: transform 0.2s cubic-bezier(.25,.8,.25,1);
-    }
-    /* Responsive Design */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  header > div:last-child {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 8px;
-  }
-
-  .theme-toggle {
-    padding: 6px 10px;
-    font-size: 0.9rem;
-  }
-
-  .neon {
-    font-size: 1rem;
-  }
 }
-  </style>
+
+/* Mobile breakpoint */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px 2vw 0 2vw;
+        min-width: 0;
+    }
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .navbar .logo {
+        font-size: 1.2em;
+    }
+    .navbar nav {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+    .navbar nav a {
+        font-size: 1em;
+        margin: 4px 0;
+        padding: 8px 0;
+        width: 100%;
+        display: block;
+    }
+    .navbar .signup-btn {
+        width: 100%;
+        margin-top: 6px;
+        padding: 10px 0;
+        font-size: 1em;
+    }
+    .main-content {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .left h2 {
+        font-size: 1.3em;
+    }
+    .left .sub {
+        font-size: 1em;
+    }
+    .left p {
+        font-size: 0.98em;
+    }
+    .left .register-btn {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 1em;
+    }
+    .illustration {
+        width: 98vw;
+        max-width: 320px;
+        height: 160px;
+    }
+    .phone {
+        left: 10px;
+        width: 120px;
+        height: 160px;
+    }
+    .screen {
+        width: 90px;
+        height: 110px;
+        margin-top: 10px;
+    }
+    .candles {
+        height: 60px;
+        margin-top: 10px;
+    }
+    .user1, .user2 {
+        width: 28px;
+        height: 40px;
+    }
+    .user-shape {
+        width: 20px;
+        height: 28px;
+    }
+    .coin-stack {
+        width: 24px;
+        height: 24px;
+        border-width: 2px;
+    }
+    .coin-stack:after {
+        left: 5px;
+        top: 2px;
+        font-size: 0.9em;
+    }
+    .arrow-up {
+        width: 30px;
+        height: 7px;
+        margin-top: 2px;
+    }
+    .gears .gear {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+    </style>
 </head>
 <body>
-  <!-- Loader -->
-  <div class="loader" id="loader"></div>
-  <!-- World Clocks -->
-  <div class="world-clocks">
-    <div id="nyClock">New York: --:--:--</div>
-    <div id="londonClock">London: --:--:--</div>
-    <div id="asianClock">Asia: --:--:--</div>
-  </div>
-  <!-- ✅ Sticky Header with Logo & Clock & Theme Toggle -->
-  <header>
-    <div class="logo">
-      <img src="https://i.imgur.com/qEZzQbl.png" alt="Logo">
-      <span class="neon">Saneru FX Tools</span>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"><img src="assets/favicon1.png" alt="Logo" height="38">FX Tool</div>
+            <nav>
+                <a href="Calendar.html">Calendar</a>
+                <a href="Calculator.html">Calculator</a>
+                <a href="trade_table.html">Trade Tracker </a>
+                <a href="entry.html">My Entry</a>
+            </nav>
+            <button class="signup-btn">Signals</button>
+        </div>
+        <div class="main-content">
+            <div class="left">
+                <h2>
+                    <span class="blue">Trading</span> <span class="bold">ONLINE</span>
+                </h2>
+                <div class="sub">Landing Page</div>
+                <p>FX Tool is your all-in-one platform for traders, offering essential tools like economic calendars, calculators, trade trackers, and more. Stay ahead in the markets with real-time data, user-friendly features, 
+                  and reliable signals designed to support both beginners and experienced traders.</p>
+            </div>
+            <div class="right">
+                <div class="illustration">
+                    <!-- Phone with chart -->
+                    <div class="phone">
+                        <div class="screen">
+                            <div class="candles">
+                                <div class="candle green candle1"></div>
+                                <div class="candle red candle2"></div>
+                                <div class="candle green candle3"></div>
+                                <div class="candle red candle4"></div>
+                                <div class="candle green candle5"></div>
+                                <div class="candle red candle6"></div>
+                            </div>
+                            <div class="buy-sell">
+                                <button class="buy-btn">BUY</button>
+                                <button class="sell-btn">SELL</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Coins and arrow -->
+                    <div class="coins">
+                        <div class="coin-stack"></div>
+                        <div class="coin-stack" style="margin-top:-14px;"></div>
+                        <div class="coin-stack" style="margin-top:-14px;"></div>
+                        <div class="arrow-up"></div>
+                    </div>
+                    <!-- User characters -->
+                    <div class="user1">
+                        <div class="user-shape"></div>
+                    </div>
+                    <div class="user2">
+                        <div class="user-shape blue"></div>
+                    </div>
+                    <!-- Gears -->
+                    <div class="gears">
+                        <div class="gear gear1"></div>
+                        <div class="gear gear2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div style="display:flex;align-items:center;">
-      <div class="live-clock" id="liveClock"><i class="fa-regular fa-clock"></i> --:--:--</div>
-      <button class="theme-toggle" onclick="window.location.href='trade_table.html'">Trade Tracker</button>
-      <button class="theme-toggle" onclick="window.location.href='entry.html'">My Entry</button>
-      <button class="theme-toggle" id="themeToggle"><i class="fa-solid fa-moon"></i> Dark Mode</button>
-    </div>
-  </header>
-
-<iframe src="https://fxpricing.com/fx-widget/ticker-tape-widget.php?id=1,2,3,5,14,20&border=show&speed=60&click_target=blank&theme=dark&tm-cr=212529&hr-cr=FFFFFF13&by-cr=28A745&sl-cr=DC3545&flags=circle&d_mode=compact-name&column=ask,bid,spread&lang=en&font=Arial, sans-serif" width="100%" height="85" style="border: unset;"></iframe><div id="fx-pricing-widget-copyright"><span>Powered by </span><a href="https://fxpricing.com/" target="_blank">FX Pricing</a></div><style type="text/css">#fx-pricing-widget-copyright{text-align: center; font-size: 13px; font-family: sans-serif; margin-top: 10px; margin-bottom: 10px; color: #9db2bd;} #fx-pricing-widget-copyright a{text-decoration: unset; color: #bb3534; font-weight: 600;}</style>  
-
-  <!-- ✅ Main Sections -->
-  <div class="container">
-    <!-- Economic Calendar -->
-    <div class="calendar tilt animate__animated animate__fadeInLeft">
-      <h2>📅 Economic Calendar
-        <span class="tooltip">ℹ️
-          <span class="tooltiptext">Live global economic events & news</span>
-        </span>
-      </h2>
-      <div id="economic-calendar-841145"></div>
-      <script src="https://www.cashbackforex.com/Content/remote/remote-calendar-widget.js"></script>
-      <script>
-        // Loader Show
-        document.getElementById('loader').style.display = "block";
-        window.addEventListener('load', function() {
-          setTimeout(function(){
-            document.getElementById('loader').style.display = "none";
-          }, 1000);
-        });
-        RemoteCalendar({
-          "DefaultTime": "today",
-          "DefaultTheme": "dark",
-          "Url": "https://www.cashbackforex.com",
-          "SubPath": "economic-calendar",
-          "IsShowEmbedButton": true,
-          "ContainerId": "economic-calendar-841145"
-        });
-      </script>
-    </div>
-    <!-- Lot Size Calculator -->
-    <div class="calculator tilt animate__animated animate__fadeInRight">
-      <h2>🧮 Lot Size Calculator
-        <span class="tooltip">ℹ️
-          <span class="tooltiptext">Calculate your optimal position size</span>
-        </span>
-      </h2>
-      <div id="position-size-calculator-284165"></div>
-      <script src="https://fxverify.com/Content/remote/remote-widgets.js"></script>
-      <script>
-        RemoteCalc({
-          "Url": "https://fxverify.com",
-          "TopPaneStyle": "YmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KCMzNDM1NDAgMCUsICMyNDI4MzEgMTAwJSk7IGNvbG9yOiB3aGl0ZTsgYm9yZGVyLWJvdHRvbTogbm9uZTs=",
-          "BottomPaneStyle": "YmFja2dyb3VuZDogIzE1MTgxZDsgYm9yZGVyOiBzb2xpZCAwcHggIzJhMmUzOTsgY29sb3I6ICM5MTk0YTE7",
-          "ButtonStyle": "YmFja2dyb3VuZDogIzM0MzU0MDsgY29sb3I6IHdoaXRlOyBib3JkZXItcmFkaXVzOiAyMHB4Ow==",
-          "TitleStyle": "dGV4dC1hbGlnbjogbGVmdDsgZm9udC1zaXplOiA0MHB4OyBmb250LXdlaWdodDogNTAwOw==",
-          "TextboxStyle": "YmFja2dyb3VuZDogIzE1MTgxZDsgY29sb3I6ICM5MTk0YTE7IGJvcmRlcjogc29saWQgMHB4ICM5MTk0YTE7",
-          "ContainerWidth": "100%",
-          "DefaultInstrument": "GBP.USD",
-          "HighlightColor": "rgba(0,0,0,1.0)",
-          "IsDisplayTitle": false,
-          "IsShowChartLinks": true,
-          "IsShowEmbedButton": true,
-          "CompactType": "large",
-          "Calculator": "position-size-calculator",
-          "ContainerId": "position-size-calculator-284165"
-        });
-      </script>
-    </div>
-  </div>
-
-  <button class="fab" onclick="window.scrollTo({top:0,behavior:'smooth'});" title="Scroll to top">⬆️</button>
-
-  <div class="divider"></div>
-
-<div class="divider"></div>
-
-  <!-- XE FX Widget Section with divider above and below -->
-  <div style="text-align: center;">
-    <iframe
-      height="240"
-      width="990"
-      title="Xe FX widget"
-      src="https://www.xe.com/currencyconverter/fx-widget?amount=1&from=USD&to=LKR"
-      frameborder="0"
-      style="max-width:100%;border-radius:14px;box-shadow:0 4px 32px rgba(0,230,230,0.13);margin-bottom:0;"
-      allowfullscreen
-    ></iframe>
-  </div>
-
-<div class="divider"></div>
-
-<!-- myfxbook.com Market Hours Widget - Start -->
-<div style="max-width:900px;margin:32px auto 0 auto;padding:18px 0 28px 0;box-shadow:0 4px 24px rgba(0,230,230,0.10);border-radius:18px;background:rgba(30,40,50,0.80);backdrop-filter:blur(4px);">
-  <div style="width:100%;height:340px;max-width:1000px;margin:0 auto;">
-    <iframe 
-      src="https://widget.myfxbook.com/widget/market-hours.html" 
-      style="border:0;width:100%;height:100%;min-height:320px;border-radius:12px;box-shadow:0 2px 16px rgba(0,230,230,0.10);background:#fff;"
-      allowfullscreen
-      loading="lazy"
-      title="Market Hours Widget"
-    ></iframe>
-  </div>
-  <div style="margin-top: 10px;">
-    <div style="width: fit-content; margin: auto;font-family: roboto,sans-serif!important; font-size: 13px; color: #cccccc;">
-      <a href="https://www.myfxbook.com/market-hours" title="Forex Market Hours" class="myfxbookLink" target="_blank" rel="noopener">
-        <b style="color:#00e6e6">Market Hours</b>
-      </a>
-      by Myfxbook.com
-    </div>
-  </div>
-</div>
-<!-- myfxbook.com Market Hours Widget - End -->
-
-  <div class="divider"></div>
-
-  <!-- ✅ Footer -->
-  <div class="footer">
-    <div class="social-icons">
-      <a href="https://twitter.com/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-      <a href="https://t.me/" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
-      <a 
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=saneruthisadara224@gmail.com&su=Thought%20you%20might%20be%20interested%20in%20this...&body=Hello,%20I%20found%20this%20email%20newsletter%20and%20thought%20you%20might%20like%20it%20-%20https://app.sendawesome.email/v/12345/1234567/email.html?k=GuZpDngspkgkRSWybam_p8XZic9m7hYKRny1NpF-ww" 
-  target="_blank" 
-  title="Email">
-  <i class="fa fa-envelope" aria-hidden="true"></i>
-</a>
-    </div>
-    <p>
-      <strong class="neon">Made by Saneru</strong> | 
-      <span style="color:#00e6e6;">All Rights Reserved © 2025</span> | 
-      <a href="https://sanerufx.com/" target="_blank">Visit Site</a>
-    </p>
-  </div>
-
-  <!-- World Clocks & Other Scripts -->
-  <script>
-    // World Clocks
-    function updateWorldClocks() {
-      const now = new Date();
-      // New York (Eastern Time)
-      const nyTime = now.toLocaleString("en-US", {timeZone: "America/New_York", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit"});
-      // London (GMT or BST)
-      const londonTime = now.toLocaleString("en-GB", {timeZone: "Europe/London", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit"});
-      // Asia (Singapore Time)
-      const asianTime = now.toLocaleString("en-SG", {timeZone: "Asia/Singapore", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit"});
-      document.getElementById("nyClock").textContent = "New York: " + nyTime;
-      document.getElementById("londonClock").textContent = "London: " + londonTime;
-      document.getElementById("asianClock").textContent = "Asia: " + asianTime;
-    }
-    setInterval(updateWorldClocks, 1000);
-    updateWorldClocks();
-
-    // Live Clock
-    function updateClock() {
-      const now = new Date();
-      let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-      h = h < 10 ? "0"+h : h;
-      m = m < 10 ? "0"+m : m;
-      s = s < 10 ? "0"+s : s;
-      document.getElementById("liveClock").innerHTML = '<i class="fa-regular fa-clock"></i> ' + h + ":" + m + ":" + s;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Dark/Light Mode Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    let darkMode = true;
-    themeToggle.onclick = function() {
-      darkMode = !darkMode;
-      if (darkMode) {
-        document.body.style.backgroundImage = "url('https://t3.ftcdn.net/jpg/09/06/92/58/360_F_906925814_fB7WqfIVfVrk4AR4sWmFmoVV7gP6lAuZ.jpg')";
-        document.body.style.backgroundColor = "";
-        document.body.style.color = "#fff";
-        themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
-        document.querySelector('header').style.background = "linear-gradient(90deg, #232526 0%, #414345 100%)";
-      } else {
-        document.body.style.backgroundImage = "none";
-        document.body.style.backgroundColor = "#f3f3f3";
-        document.body.style.color = "#222";
-        themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
-        document.querySelector('header').style.background = "linear-gradient(90deg, #fff 0%, #e0e0e0 100%)";
-      }
-    };
-
-    // 3D Tilt Effect for Cards
-    document.querySelectorAll('.tilt').forEach(function(card){
-      card.addEventListener('mousemove', function(e){
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const cx = rect.width/2;
-        const cy = rect.height/2;
-        const dx = (x-cx)/cx;
-        const dy = (y-cy)/cy;
-        card.style.transform = `scale(1.03) rotateY(${dx*8}deg) rotateX(${-dy*8}deg)`;
-      });
-      card.addEventListener('mouseleave', function(){
-        card.style.transform = '';
-      });
-    });
-
-    // Entry Animations on scroll (simple)
-    function animateOnScroll() {
-      document.querySelectorAll('.animate__animated').forEach(function(el){
-        const rect = el.getBoundingClientRect();
-        if(rect.top < window.innerHeight-60) {
-          el.classList.add('animate__fadeInUp');
-        }
-      });
-    }
-    window.addEventListener('scroll', animateOnScroll);
-    setTimeout(animateOnScroll, 500);
-
-    // Loader microinteraction (already in widget script above)
-  </script>
 </body>
 </html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Economic Calendar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Animate.css CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      background: linear-gradient(135deg, #e8eafe 0%, #f8f9fb 100%);
+      font-family: 'Segoe UI', 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .calendar {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(60,60,120,0.12);
+      padding: 36px 28px 28px 28px;
+      max-width: 520px;
+      width: 100%;
+      margin: 32px 0;
+      position: relative;
+      animation-duration: 1.2s;
+    }
+    .calendar h2 {
+      font-size: 1.7em;
+      font-weight: 700;
+      color: #2d356e;
+      margin: 0 0 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .calendar .tooltip {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .calendar .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #2ca6e0;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      padding: 10px 16px;
+      position: absolute;
+      z-index: 2;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.98em;
+      box-shadow: 0 4px 16px #2ca6e055;
+    }
+    .calendar .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    /* Loader */
+    #loader {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.7);
+      border-radius: 20px;
+      z-index: 10;
+    }
+    .loader-spinner {
+      border: 5px solid #e3e7f3;
+      border-top: 5px solid #2ca6e0;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .calendar {
+        padding: 18px 4vw 18px 4vw;
+        max-width: 98vw;
+      }
+      .calendar h2 {
+        font-size: 1.2em;
+      }
+      .calendar .tooltip .tooltiptext {
+        width: 140px;
+        font-size: 0.92em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calendar tilt animate__animated animate__fadeInLeft">
+    <h2>
+      📅 Economic Calendar
+      <span class="tooltip">ℹ️
+        <span class="tooltiptext">Live global economic events &amp; news</span>
+      </span>
+    </h2>
+    <!-- Loader -->
+    <div id="loader">
+      <div class="loader-spinner"></div>
+    </div>
+    <!-- Calendar widget container -->
+    <div id="economic-calendar-841145"></div>
+  </div>
+  <!-- Widget Script -->
+  <script src="https://www.cashbackforex.com/Content/remote/remote-calendar-widget.js"></script>
+  <script>
+    // Loader Show
+    document.getElementById('loader').style.display = "flex";
+    window.addEventListener('load', function() {
+      setTimeout(function(){
+        document.getElementById('loader').style.display = "none";
+      }, 1200);
+    });
+    RemoteCalendar({
+      "DefaultTime": "today",
+      "DefaultTheme": "dark",
+      "Url": "https://www.cashbackforex.com",
+      "SubPath": "economic-calendar",
+      "IsShowEmbedButton": true,
+      "ContainerId": "economic-calendar-841145"
+    });
+  </script>
+</body>
+</html>
