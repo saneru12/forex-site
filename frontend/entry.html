@@ -250,7 +250,7 @@
       loader.style.display = "block";
 
       try {
-        const res = await fetch("https://better-purring-snowshoe.glitch.me/api/images");
+        const res = await fetch("https://fx-tool-backend.glitch.me/api/images");
         const data = await res.json();
         const filtered = data.filter((img) => img.category === currentFilter);
 
