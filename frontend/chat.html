@@ -3,18 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <title>Embed Chat App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+    }
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .iframe-container {
+      width: 360px;
+      height: 800px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     iframe {
-      width: 100%;
-      height: 100vh; /* or adjust as needed */
+      width: 360px;
+      height: 800px;
       border: none;
+      border-radius: 24px;
+      background: #fff;
+      display: block;
+    }
+    /* Optional: Make sure it doesn't overflow on small screens */
+    @media (max-width: 370px), (max-height: 810px) {
+      .iframe-container, iframe {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <iframe src="https://live-chat123.glitch.me" title="Chat App"></iframe>
+  <div class="iframe-container">
+    <iframe src="https://live-chat123.glitch.me" title="Chat App"></iframe>
+  </div>
 </body>
 </html>
