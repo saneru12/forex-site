@@ -1,453 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <title>Saneru FX Tool</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background: #f5f6ff;
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(60,60,120,0.08);
-            padding: 40px 40px 0 40px;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-        .navbar .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.7em;
-            font-weight: bold;
-            color: #5a4fdc;
-        }
-        .navbar .logo span {
-            width: 32px;
-            height: 32px;
-            background: #e06bb6;
-            border-radius: 8px;
-            display: inline-block;
-            margin-right: 10px;
-        }
-        .navbar nav a {
-            margin: 0 18px;
-            color: #3c3c6c;
-            text-decoration: none;
-            font-size: 1.08em;
-        }
-        .navbar .signup-btn {
-            background: #ff5ea2;
-            color: #fff;
-            border: none;
-            border-radius: 18px;
-            padding: 8px 24px;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        .main-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .left {
-            max-width: 48%;
-        }
-        .left h2 {
-            font-size: 2.3em;
-            margin: 0 0 10px 0;
-            font-weight: 500;
-        }
-        .left h2 .blue {
-            color: #2ca6e0;
-            font-weight: 400;
-        }
-        .left h2 .bold {
-            color: #23306c;
-            font-weight: 700;
-        }
-        .left .sub {
-            color: #2ca6e0;
-            font-size: 1.2em;
-            margin-bottom: 16px;
-        }
-        .left p {
-            color: #888;
-            font-size: 1em;
-            margin-bottom: 28px;
-        }
-        .left .register-btn {
-            background: #ff5ea2;
-            color: #fff;
-            border: none;
-            border-radius: 18px;
-            padding: 12px 32px;
-            font-size: 1.1em;
-            cursor: pointer;
-        }
-        .right {
-            max-width: 48%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        /* Illustration styles */
-        .illustration {
-            position: relative;
-            width: 370px;
-            height: 320px;
-            background: none;
-        }
-        .phone {
-            position: absolute;
-            left: 50px;
-            top: 30px;
-            width: 180px;
-            height: 260px;
-            background: #a3d2f7;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(60,60,120,0.10);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-        .screen {
-            width: 140px;
-            height: 200px;
-            background: #23306c;
-            border-radius: 10px;
-            position: relative;
-            margin: 0 auto;
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-        }
-        .candles {
-            display: flex;
-            align-items: flex-end;
-            height: 140px;
-            margin-top: 30px;
-        }
-        .candle {
-            width: 10px;
-            margin: 0 4px;
-            border-radius: 3px;
-            background: #2ca6e0;
-            position: relative;
-        }
-        .candle.red { background: #ff5e5e; }
-        .candle.green { background: #47e087; }
-        .candle1 { height: 60px; }
-        .candle2 { height: 90px; }
-        .candle3 { height: 70px; }
-        .candle4 { height: 110px; }
-        .candle5 { height: 80px; }
-        .candle6 { height: 100px; }
-        .buy-sell {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin: 14px 0;
-        }
-        .buy-btn, .sell-btn {
-            width: 54px;
-            padding: 5px 0;
-            border-radius: 8px;
-            border: none;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1em;
-        }
-        .buy-btn { background: #47e087; }
-        .sell-btn { background: #ff5e5e; }
-        /* Coins and arrow */
-        .coins {
-            position: absolute;
-            right: 10px;
-            bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .coin-stack {
-            width: 50px;
-            height: 50px;
-            background: gold;
-            border-radius: 50%;
-            border: 4px solid #ffcd34;
-            margin-bottom: 4px;
-            position: relative;
-        }
-        .coin-stack:after {
-            content: '$';
-            position: absolute;
-            left: 14px;
-            top: 8px;
-            font-size: 1.4em;
-            color: #ffae00;
-            font-weight: bold;
-        }
-        .arrow-up {
-            width: 60px;
-            height: 14px;
-            background: #f6b93b;
-            clip-path: polygon(0 0, 80% 0, 80% 70%, 100% 70%, 80% 100%, 80% 70%, 0 70%);
-            margin-top: 6px;
-        }
-        /* Characters */
-        .user1, .user2 {
-            position: absolute;
-            width: 50px;
-            height: 80px;
-            background: none;
-        }
-        .user1 {
-            left: 0;
-            bottom: 30px;
-            display: flex;
-            align-items: flex-end;
-        }
-        .user2 {
-            right: 70px;
-            bottom: 90px;
-            display: flex;
-            align-items: flex-end;
-        }
-        .user-shape {
-            width: 40px;
-            height: 60px;
-            background: #f7b6d2;
-            border-radius: 20px;
-            margin: 0 auto;
-        }
-        .user-shape.blue { background: #a3d2f7; }
-        /* Gears */
-        .gears {
-            position: absolute;
-            right: 0;
-            top: 30px;
-        }
-        .gear {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #e3eaf2;
-            position: absolute;
-        }
-        .gear1 { left: 0; top: 0; }
-        .gear2 { left: 22px; top: 18px; width: 18px; height: 18px; }
-        /* Responsive */
-        @media (max-width: 900px) {
-            .main-content {
-                flex-direction: column;
-            }
-            .left, .right {
-                max-width: 100%;
-            }
-            .illustration {
-                margin-top: 40px;
-            }
-        }
-        /* Tablet breakpoint */
-@media (max-width: 900px) {
-    .container {
-        padding: 24px 8px 0 8px;
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <title>Saneru FX Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    body {
+      background: #f5f6ff;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
     }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(60, 60, 120, 0.08);
+      padding: 40px 40px 0 40px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.7em;
+      font-weight: bold;
+      color: #5a4fdc;
+    }
+
+    .navbar .logo img {
+      margin-right: 10px;
+    }
+
+    .navbar nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .navbar nav a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #3c3c6c;
+      text-decoration: none;
+      font-size: 1.08em;
+      padding: 8px 0;
+      transition: color 0.2s ease;
+    }
+
+    .navbar nav a:hover {
+      color: #5a4fdc;
+    }
+
+    .navbar nav a .material-symbols-outlined {
+      font-size: 1.3em;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .navbar .signup-btn {
+      background: #ff5ea2;
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      padding: 8px 24px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
     .main-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .left {
+      max-width: 48%;
+    }
+
+    .left h2 {
+      font-size: 2.3em;
+      margin: 0 0 10px 0;
+      font-weight: 500;
+    }
+
+    .left h2 .blue {
+      color: #2ca6e0;
+      font-weight: 400;
+    }
+
+    .left h2 .bold {
+      color: #23306c;
+      font-weight: 700;
+    }
+
+    .left .sub {
+      color: #2ca6e0;
+      font-size: 1.2em;
+      margin-bottom: 16px;
+    }
+
+    .left p {
+      color: #888;
+      font-size: 1em;
+      margin-bottom: 28px;
+    }
+
+    .left .register-btn {
+      background: #ff5ea2;
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      padding: 12px 32px;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+
+    .right {
+      max-width: 48%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .illustration {
+      position: relative;
+      width: 370px;
+      height: 320px;
+      background: none;
+    }
+
+    .phone {
+      position: absolute;
+      left: 50px;
+      top: 30px;
+      width: 180px;
+      height: 260px;
+      background: #a3d2f7;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(60, 60, 120, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .screen {
+      width: 140px;
+      height: 200px;
+      background: #23306c;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .candles {
+      display: flex;
+      align-items: flex-end;
+      height: 140px;
+      margin-top: 30px;
+    }
+
+    .candle {
+      width: 10px;
+      margin: 0 4px;
+      border-radius: 3px;
+      background: #2ca6e0;
+    }
+
+    .candle.red {
+      background: #ff5e5e;
+    }
+
+    .candle.green {
+      background: #47e087;
+    }
+
+    .candle1 {
+      height: 60px;
+    }
+
+    .candle2 {
+      height: 90px;
+    }
+
+    .candle3 {
+      height: 70px;
+    }
+
+    .candle4 {
+      height: 110px;
+    }
+
+    .candle5 {
+      height: 80px;
+    }
+
+    .candle6 {
+      height: 100px;
+    }
+
+    .buy-sell {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin: 14px 0;
+    }
+
+    .buy-btn,
+    .sell-btn {
+      width: 54px;
+      padding: 5px 0;
+      border-radius: 8px;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .buy-btn {
+      background: #47e087;
+    }
+
+    .sell-btn {
+      background: #ff5e5e;
+    }
+
+    .coins {
+      position: absolute;
+      right: 10px;
+      bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .coin-stack {
+      width: 50px;
+      height: 50px;
+      background: gold;
+      border-radius: 50%;
+      border: 4px solid #ffcd34;
+      margin-bottom: 4px;
+      position: relative;
+    }
+
+    .coin-stack:after {
+      content: '$';
+      position: absolute;
+      left: 14px;
+      top: 8px;
+      font-size: 1.4em;
+      color: #ffae00;
+      font-weight: bold;
+    }
+
+    .arrow-up {
+      width: 60px;
+      height: 14px;
+      background: #f6b93b;
+      clip-path: polygon(0 0, 80% 0, 80% 70%, 100% 70%, 80% 100%, 80% 70%, 0 70%);
+      margin-top: 6px;
+    }
+
+    .user1,
+    .user2 {
+      position: absolute;
+      width: 50px;
+      height: 80px;
+    }
+
+    .user1 {
+      left: 0;
+      bottom: 30px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .user2 {
+      right: 70px;
+      bottom: 90px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .user-shape {
+      width: 40px;
+      height: 60px;
+      background: #f7b6d2;
+      border-radius: 20px;
+      margin: 0 auto;
+    }
+
+    .user-shape.blue {
+      background: #a3d2f7;
+    }
+
+    .gears {
+      position: absolute;
+      right: 0;
+      top: 30px;
+    }
+
+    .gear {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e3eaf2;
+      position: absolute;
+    }
+
+    .gear1 {
+      left: 0;
+      top: 0;
+    }
+
+    .gear2 {
+      left: 22px;
+      top: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        padding: 24px 8px 0 8px;
+      }
+
+      .main-content {
         flex-direction: column;
         gap: 32px;
-    }
-    .left, .right {
+      }
+
+      .left,
+      .right {
         max-width: 100%;
-    }
-    .illustration {
+      }
+
+      .illustration {
         margin-top: 32px;
         width: 90vw;
         max-width: 370px;
         height: 220px;
+      }
     }
-    .navbar nav a {
-        margin: 0 10px;
-    }
-}
 
-/* Mobile breakpoint */
-@media (max-width: 600px) {
-    .container {
-        padding: 10px 2vw 0 2vw;
-        min-width: 0;
-    }
-    .navbar {
+    @media (max-width: 600px) {
+      .navbar {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-    }
-    .navbar .logo {
-        font-size: 1.2em;
-    }
-    .navbar nav {
-        width: 100%;
-        display: flex;
+      }
+
+      .navbar nav {
         flex-direction: column;
-        gap: 0;
-    }
-    .navbar nav a {
-        font-size: 1em;
-        margin: 4px 0;
-        padding: 8px 0;
         width: 100%;
-        display: block;
-    }
-    .navbar .signup-btn {
+        gap: 4px;
+      }
+
+      .navbar nav a {
+        width: 100%;
+      }
+
+      .signup-btn {
         width: 100%;
         margin-top: 6px;
-        padding: 10px 0;
-        font-size: 1em;
-    }
-    .main-content {
-        flex-direction: column;
-        gap: 24px;
-    }
-    .left h2 {
-        font-size: 1.3em;
-    }
-    .left .sub {
-        font-size: 1em;
-    }
-    .left p {
-        font-size: 0.98em;
-    }
-    .left .register-btn {
-        width: 100%;
-        padding: 12px 0;
-        font-size: 1em;
-    }
-    .illustration {
+      }
+
+      .illustration {
         width: 98vw;
         max-width: 320px;
         height: 160px;
-    }
-    .phone {
+      }
+
+      .phone {
         left: 10px;
         width: 120px;
         height: 160px;
-    }
-    .screen {
+      }
+
+      .screen {
         width: 90px;
         height: 110px;
         margin-top: 10px;
-    }
-    .candles {
+      }
+
+      .candles {
         height: 60px;
         margin-top: 10px;
-    }
-    .user1, .user2 {
+      }
+
+      .user1,
+      .user2 {
         width: 28px;
         height: 40px;
-    }
-    .user-shape {
+      }
+
+      .user-shape {
         width: 20px;
         height: 28px;
-    }
-    .coin-stack {
+      }
+
+      .coin-stack {
         width: 24px;
         height: 24px;
         border-width: 2px;
-    }
-    .coin-stack:after {
+      }
+
+      .coin-stack:after {
         left: 5px;
         top: 2px;
         font-size: 0.9em;
-    }
-    .arrow-up {
+      }
+
+      .arrow-up {
         width: 30px;
         height: 7px;
         margin-top: 2px;
-    }
-    .gears .gear {
+      }
+
+      .gears .gear {
         width: 12px;
         height: 12px;
+      }
     }
-}
-
-    </style>
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="navbar">
-            <div class="logo"><img src="assets/favicon1.png" alt="Logo" height="38">FX Tool</div>
-            <nav>
-                <a href="Calendar.html">Calendar</a>
-                <a href="Calculator.html">Calculator</a>
-                <a href="trade_table.html">Trade Tracker </a>
-                <a href="entry.html">My Entry</a>
-            </nav>
-            <button class="signup-btn" onclick="window.location.href='chat.html'">Live-Chat</button>
-        </div>
-        <div class="main-content">
-            <div class="left">
-                <h2>
-                    <span class="blue">Trading</span> <span class="bold">ONLINE</span>
-                </h2>
-                <div class="sub">Landing Page</div>
-                <p>FX Tool is your all-in-one platform for traders, offering essential tools like economic calendars, calculators, trade trackers, and more. Stay ahead in the markets with real-time data, user-friendly features, 
-                  and reliable signals designed to support both beginners and experienced traders.</p>
-            </div>
-            <div class="right">
-                <div class="illustration">
-                    <!-- Phone with chart -->
-                    <div class="phone">
-                        <div class="screen">
-                            <div class="candles">
-                                <div class="candle green candle1"></div>
-                                <div class="candle red candle2"></div>
-                                <div class="candle green candle3"></div>
-                                <div class="candle red candle4"></div>
-                                <div class="candle green candle5"></div>
-                                <div class="candle red candle6"></div>
-                            </div>
-                            <div class="buy-sell">
-                                <button class="buy-btn">BUY</button>
-                                <button class="sell-btn">SELL</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Coins and arrow -->
-                    <div class="coins">
-                        <div class="coin-stack"></div>
-                        <div class="coin-stack" style="margin-top:-14px;"></div>
-                        <div class="coin-stack" style="margin-top:-14px;"></div>
-                        <div class="arrow-up"></div>
-                    </div>
-                    <!-- User characters -->
-                    <div class="user1">
-                        <div class="user-shape"></div>
-                    </div>
-                    <div class="user2">
-                        <div class="user-shape blue"></div>
-                    </div>
-                    <!-- Gears -->
-                    <div class="gears">
-                        <div class="gear gear1"></div>
-                        <div class="gear gear2"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo"><img src="assets/favicon1.png" alt="Logo" height="38">FX Tool</div>
+      <nav>
+        <a href="Calendar.html"><span class="material-symbols-outlined">event_note</span>Calendar</a>
+        <a href="Calculator.html"><span class="material-symbols-outlined">calculate</span>Calculator</a>
+        <a href="trade_table.html"><span class="material-symbols-outlined">table_chart</span>Trade Tracker</a>
+        <a href="entry.html"><span class="material-symbols-outlined">edit_note</span>My Entry</a>
+      </nav>
+      <button class="signup-btn" onclick="window.location.href='chat.html'">Live-Signal</button>
     </div>
+
+    <div class="main-content">
+      <div class="left">
+        <h2><span class="blue">Trading</span> <span class="bold">ONLINE</span></h2>
+        <div class="sub">Landing Page</div>
+        <p>FX Tool is your all-in-one platform for traders, offering essential tools like economic calendars,
+          calculators, trade trackers, and more. Stay ahead in the markets with real-time data, user-friendly
+          features, and reliable signals designed to support both beginners and experienced traders.</p>
+      </div>
+      <div class="right">
+        <div class="illustration">
+          <div class="phone">
+            <div class="screen">
+              <div class="candles">
+                <div class="candle green candle1"></div>
+                <div class="candle red candle2"></div>
+                <div class="candle green candle3"></div>
+                <div class="candle red candle4"></div>
+                <div class="candle green candle5"></div>
+                <div class="candle red candle6"></div>
+              </div>
+              <div class="buy-sell">
+                <button class="buy-btn">BUY</button>
+                <button class="sell-btn">SELL</button>
+              </div>
+            </div>
+          </div>
+          <div class="coins">
+            <div class="coin-stack"></div>
+            <div class="coin-stack" style="margin-top:-14px;"></div>
+            <div class="coin-stack" style="margin-top:-14px;"></div>
+            <div class="arrow-up"></div>
+          </div>
+          <div class="user1"><div class="user-shape"></div></div>
+          <div class="user2"><div class="user-shape blue"></div></div>
+          <div class="gears"><div class="gear gear1"></div><div class="gear gear2"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
