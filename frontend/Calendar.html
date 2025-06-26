@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Animate.css CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
   <style>
     body {
       background: linear-gradient(135deg, #e8eafe 0%, #f8f9fb 100%);
@@ -76,18 +78,6 @@
       border-radius: 20px;
       z-index: 10;
     }
-    .loader-spinner {
-      border: 5px solid #e3e7f3;
-      border-top: 5px solid #2ca6e0;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
-    }
     /* Responsive */
     @media (max-width: 600px) {
       .calendar {
@@ -101,6 +91,10 @@
         width: 140px;
         font-size: 0.92em;
       }
+      dotlottie-player {
+        width: 200px !important;
+        height: 200px !important;
+      }
     }
   </style>
 </head>
@@ -112,23 +106,37 @@
         <span class="tooltiptext">Live global economic events &amp; news</span>
       </span>
     </h2>
-    <!-- Loader -->
+    
+    <!-- Loader with Lottie -->
     <div id="loader">
-      <div class="loader-spinner"></div>
+      <dotlottie-player 
+        src="https://lottie.host/f7442181-0455-4a99-922c-f074f99e02d5/4lk1UACe9J.lottie" 
+        background="transparent" 
+        speed="1" 
+        style="width: 300px; height: 300px;" 
+        loop 
+        autoplay>
+      </dotlottie-player>
     </div>
+
     <!-- Calendar widget container -->
     <div id="economic-calendar-841145"></div>
   </div>
+
   <!-- Widget Script -->
   <script src="https://www.cashbackforex.com/Content/remote/remote-calendar-widget.js"></script>
   <script>
-    // Loader Show
+    // Show loader
     document.getElementById('loader').style.display = "flex";
+
+    // Hide loader after widget loads
     window.addEventListener('load', function() {
       setTimeout(function(){
         document.getElementById('loader').style.display = "none";
       }, 1200);
     });
+
+    // Initialize calendar
     RemoteCalendar({
       "DefaultTime": "today",
       "DefaultTheme": "dark",
