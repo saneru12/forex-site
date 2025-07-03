@@ -518,6 +518,52 @@
           <div class="gears"><div class="gear gear1"></div><div class="gear gear2"></div></div>
         </div>
       </div>
+      <!-- Existing .main-content content continues... -->
+
+<!-- 🔢 Percentage Calculator -->
+<div style="width: 100%; margin-top: 40px; display: flex; justify-content: center;">
+  <div style="background: #ffffff; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); padding: 30px; width: 100%; max-width: 500px;">
+    <h3 style="text-align:center; color:#23306c; margin-bottom: 20px;">🔢 Portion % Calculator</h3>
+
+    <label style="color:#3c3c6c; font-weight: 500;">Account Balance</label>
+    <input type="number" id="accountBalance" placeholder="e.g. 48"
+      style="width:100%; padding:10px; margin: 6px 0 16px 0; border-radius: 10px; border: 1px solid #ccc;">
+
+    <label style="color:#3c3c6c; font-weight: 500;">Number of Parts</label>
+    <input type="number" id="numberOfParts" placeholder="e.g. 20"
+      style="width:100%; padding:10px; margin: 6px 0 20px 0; border-radius: 10px; border: 1px solid #ccc;">
+
+    <button onclick="calculatePercentage()"
+      style="background:#ff5ea2; color:white; width:100%; padding:12px; font-size: 1em; border:none; border-radius: 12px; cursor:pointer;">
+      Calculate
+    </button>
+
+    <div id="percentageResult" style="margin-top:20px; color:#2ca6e0; font-size: 1.1em; font-weight: bold; text-align: center;"></div>
+  </div>
+</div>
+
+<script>
+  function calculatePercentage() {
+    const balance = parseFloat(document.getElementById("accountBalance").value);
+    const parts = parseFloat(document.getElementById("numberOfParts").value);
+
+    const resultDiv = document.getElementById("percentageResult");
+
+    if (isNaN(balance) || isNaN(parts) || parts === 0) {
+      resultDiv.innerHTML = "⚠️ Please enter valid values (parts cannot be 0)";
+      return;
+    }
+
+    const perPart = balance / parts;
+    const percentage = (perPart / balance) * 100;
+
+    resultDiv.innerHTML = `
+      Each Part = <span style="color:#23306c;">${perPart.toFixed(2)}</span><br>
+      Percentage per Part = <span style="color:#23306c;">${percentage.toFixed(2)}%</span>
+    `;
+  }
+</script>
+
     </div>
   </div>
 
