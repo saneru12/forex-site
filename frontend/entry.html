@@ -266,7 +266,7 @@
       loader.style.display = "block";
 
       try {
-        const res = await fetch("https://fx-tool-backend.glitch.me/api/images");
+        const res = await fetch("https://8bd4c6129c0e.ngrok-free.app/api/images");
         const data = await res.json();
         const filtered = data.filter((img) => img.category === currentFilter);
 
